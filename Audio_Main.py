@@ -3,6 +3,8 @@ import pyaudio
 import os
 import shutil
 import wave
+from pydub import AudioSegment
+from datetime import datetime
 
 # Parameters
 CHUNK = 1024
@@ -11,7 +13,8 @@ CHANNEL = 1
 RATE = 44100
 instance = pyaudio.PyAudio()
 stream = instance.open(format=FORMAT, channels=CHANNEL, rate=RATE, input=True, frames_per_buffer=CHUNK)
-
+now = datetime.now()
+time_of_recording = now.strftime("%Y-%m-%d %H:%M:%S")
 
 # Recorder Func
 def voice_recorder(CHUNK, RATE, stream):
@@ -39,6 +42,8 @@ def save_file(FRAMES):
         prompt = input(f'Save File? (Y/N): ')
     
     if prompt == 'Y' or prompt == 'y':
+        now = datetime.now()
+        time_of_recording = now.strftime("%Y-%m-%d %H:%M:%S")
         wf = wave.open("output.wav", 'wb')
         wf.setnchannels(CHANNELS)
         wf.setsampwidth(instance.get_sample_size(FORMAT))
@@ -46,7 +51,10 @@ def save_file(FRAMES):
         wf.writeframes(b''.join(FRAMES))
         wf.close()
         download_path = os.path.join(os.path.expanduser('~'), 'Downloads')
-        shutil.move('output.wav', download_path)
+        sound = AudioSegment.from_wav("output.wav")
+        sound.export(f"output{time_of_recording}.mp3", format="mp3")
+        shutil.move(f'output{time_of_recording}.mp3', download_path)
+        os.remove('output.wav')
 
 # Interactive Func
 def interactive_experience(CHUNK, RATE, stream):
