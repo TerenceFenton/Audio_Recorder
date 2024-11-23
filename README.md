@@ -7,14 +7,19 @@ This system will need the following Libraries;
 - wave
 - shutil
 - pydub
-- datetime
+- time
+- Threading
+- Pynput
 
-Currently the program only records for 2 seconds. However current features include;
+The program to date is now feeling like a real audio recorder! Current feature include;
 - MP3 file output
 - Sends files to downloads directory in os system
-- labels the files with the date and time produced
-
-Further features to implement;
+- Labels the files with the date and time produced
 - Button press start
 - Button press end
-- Make file save always active
+- Cross platform (should be)
+
+Further features to implement;
+- Simplify the code with a class system (mainly so that I can practice coding classes)
+- Start frontend actual interface (I've never done that before, how exciting)
+
